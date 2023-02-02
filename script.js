@@ -40,7 +40,11 @@ $(function () {
   // event listener
   var timeList = $('.time-list');
   timeList.on('click', '.saveBtn', function (e) {
-    console.log("hello!"+this);
+    
+    var calItem = $(this).siblings('.description').val();
+    console.log(calItem);
+
+    localStorage.setItem("calInput", calItem);
   });
 
 
