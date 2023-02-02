@@ -14,7 +14,6 @@
             // look at html text area for the description 
     
 
-// at the top: Day, Month, Year
     
 // current date is coming from Day.js library --- will need the CDN
     // paste just above the js link at the bottom of html
