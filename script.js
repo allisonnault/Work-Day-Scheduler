@@ -2,9 +2,7 @@ dayjs().format();
 
 var currentHour = dayjs().hour();
 
-$(function () {
-
-  var nine = $('#hour-9');
+var nine = $('#hour-9');
   var ten = $('#hour-10');
   var eleven = $('#hour-11');
   var twelve = $('#hour-12');
@@ -20,26 +18,41 @@ $(function () {
   var dayWeek = today.format('dddd, MMMM D');
   currentDay.text(dayWeek);
 
-  //  color change
-  for (var i = 0; i < timeBlock.length; i++) {
-    if ((timeBlock[i].data().time) > (dayjs().hour())) {
-      timeBlock[i].attr('class', 'future');
-      timeBlock[i].addClass('row');
-      timeBlock[i].addClass('time-block');
-    } else if ((timeBlock[i].data().time) == (dayjs().hour())) {
-      timeBlock[i].attr('class', 'present');
-      timeBlock[i].addClass('row');
-      timeBlock[i].addClass('time-block');
-    } else {
-      timeBlock[i].attr('class', 'past');
-      timeBlock[i].addClass('row');
-      timeBlock[i].addClass('time-block');
+  function assignColor (){  //  color change
+    for (var i = 0; i < timeBlock.length; i++) {
+      if ((timeBlock[i].data().time) > (dayjs().hour())) {
+        timeBlock[i].attr('class', 'future');
+        timeBlock[i].addClass('row');
+        timeBlock[i].addClass('time-block');
+      } else if ((timeBlock[i].data().time) == (dayjs().hour())) {
+        timeBlock[i].attr('class', 'present');
+        timeBlock[i].addClass('row');
+        timeBlock[i].addClass('time-block');
+      } else {
+        timeBlock[i].attr('class', 'past');
+        timeBlock[i].addClass('row');
+        timeBlock[i].addClass('time-block');
+      }
+    }}
+
+    function displayCalendar () {
+
+    for (var i = 0; i < calDisplay.length; i++) {
+      for (var x = 0; x < timeBlock.length; x++) {
+        if (timeBlock[x].data().time == calDisplay[i].id) {
+          timeBlock[x].children('textarea').text(calDisplay[i].comment);
+        }
+      }
     }
-  }
+    }
 
+    var calItems = JSON.parse(localStorage.getItem("textInput")) || [];
+
+    var calDisplay = JSON.parse(localStorage.getItem("textInput"));
+
+$(function () {
+  assignColor();
   // event listener
-  var calItems = JSON.parse(localStorage.getItem("textInput")) || [];
-
   var timeList = $('.time-list');
   timeList.on('click', '.saveBtn', function (e) {
 
@@ -49,32 +62,18 @@ $(function () {
     };
 
     calItems.push(calItem);
-    localStorage.setItem("textInput", JSON.stringify(calItems));
-    
-    var calDisplay = JSON.parse(localStorage.getItem("textInput"));
+    localStorage.setItem("textInput", JSON.stringify(calItems));})
 
-    for (var i = 0; i < calDisplay.length; i++) {
-      for (var x = 0; x < timeBlock.length; x++) {
-        if ((timeBlock[x].data().time) === (calDisplay[i].id)) {
-          timeBlock[x].children('textarea').text(calDisplay[i].comment);
-        }
-      }
-    }
+    displayCalendar();
+    
   });
 
 
 
  
-  }
-
-);
 
 
 
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
 
 
 
