@@ -18,6 +18,10 @@ var nine = $('#hour-9');
   var dayWeek = today.format('dddd, MMMM D');
   currentDay.text(dayWeek);
 
+  var calItems = JSON.parse(localStorage.getItem("textInput")) || [];
+
+  var calDisplay = JSON.parse(localStorage.getItem("textInput"));
+
   function assignColor (){  //  color change
     for (var i = 0; i < timeBlock.length; i++) {
       if ((timeBlock[i].data().time) > (dayjs().hour())) {
@@ -46,9 +50,11 @@ var nine = $('#hour-9');
     }
     }
 
-    var calItems = JSON.parse(localStorage.getItem("textInput")) || [];
-
-    var calDisplay = JSON.parse(localStorage.getItem("textInput"));
+  function clearCalendar (){
+    if (dayjs().hour() > 17) {
+      localStorage.clear();
+    }
+  }
 
 $(function () {
   assignColor();
@@ -65,6 +71,7 @@ $(function () {
     localStorage.setItem("textInput", JSON.stringify(calItems));})
 
     displayCalendar();
+    clearCalendar();
     
   });
 
